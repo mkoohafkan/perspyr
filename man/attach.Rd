@@ -7,24 +7,28 @@
 \alias{pyAttach}
 \title{Attach Python objects to R.}
 \usage{
-pyImport(name, from = NULL, as = NULL, attach = parent.frame())
+pyImport(name, from = NULL, as = NULL, env = parent.frame())
 
-pyFunction(key)
+pyFunction(key, finalizer = "_")
 
 pyAttach(what, env = parent.frame())
 }
 \arguments{
+\item{name}{Names of the Python objects to import.}
+
 \item{from}{(Optional) the name of the module.}
 
 \item{as}{(Optional) An alias for the module name.}
 
-\item{key}{The Python function name.}
-
-\item{what}{Vector of names of Python objects to attach to R.}
-
 \item{env}{(Optional) environment to assign the Python objects to.}
 
-\item{import}{Names of the Python objects to import.}
+\item{key}{The Python function name.}
+
+\item{finalizer}{An additional operation to perform on the
+function output prior to returning to R. Use the character
+"_" as a placeholder for the Python output variable.}
+
+\item{what}{Vector of names of Python objects to attach to R.}
 }
 \description{
 Attach Python objects to R.

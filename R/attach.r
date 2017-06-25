@@ -5,12 +5,12 @@ NULL
 
 #' @describeIn attach Import Python objects into R.
 #'
-#' @param import Names of the Python objects to import.
+#' @param name Names of the Python objects to import.
 #' @param from (Optional) the name of the module.
 #' @param as (Optional) An alias for the module name.
 #' @param env (Optional) environment to assign the Python objects to.
 #'
-pyImport = function(name, from = NULL, as = NULL, attach = parent.frame()) {
+pyImport = function(name, from = NULL, as = NULL, env = parent.frame()) {
   if (all(is.null(c(from, as))))
     py()$exec(sprintf("import %s", name))
   else if (!any(is.null(c(from, as))))
@@ -22,7 +22,7 @@ pyImport = function(name, from = NULL, as = NULL, attach = parent.frame()) {
   else if (all(is.null(c(name, as))))
     py()$exec(sprintf("from %s import *", from))
 
-  if (is.null(attach))
+  if (is.null(env))
     return(invisible(NULL))
 
   stop("not implemented!")
@@ -34,8 +34,11 @@ pyImport = function(name, from = NULL, as = NULL, attach = parent.frame()) {
 #'
 #' @param key The Python function name.
 #' @param finalizer An additional operation to perform on the
-#'   function output prior to returning to R.
+#'   function output prior to returning to R. Use the character
+#'   "_" as a placeholder for the Python output variable.
 #'
+#' @importFrom utils head tail
+#' @export
 pyFunction = function(key, finalizer = "_") {
   # get Python function specs
   py()$exec(
@@ -71,6 +74,7 @@ pyFunction = function(key, finalizer = "_") {
 #' @describeIn attach
 #'
 #' @param what Vector of names of Python objects to attach to R.
+#'
 pyAttach = function(what, env = parent.frame()){
   stop("Not implemented!")
 

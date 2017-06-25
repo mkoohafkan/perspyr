@@ -14,13 +14,13 @@ NULL
 #'
 #' @export
 pyPrint = function(objName) {
-  print(py()$exec(sprintf("print(%s)", code)))
+  print(py()$exec(sprintf("print(%s)", objName)))
 }
 
 #' @describeIn variables Retrieve variables from Python. Only applicable
 #'   to objects that can be serialized to JSON. Otherwise, use `pyPrint`.
 #'
-#' @param ... One or more variable names to retrieve from Python.
+#' @param ... Names of one or more Python variables to get/set.
 #' @return The return value (for one variable) or a named list of
 #'   values (for multiple variables) returned from Python.
 #'
@@ -40,8 +40,6 @@ pyGet = function(...) {
 
 #' @describeIn variables Set variables in Python. Only applicable to
 #'   objects that can be serialized to JSON. Otherwise, use `pyExec`.
-#'
-#' @param ... One or more named variables to set in Python.
 #'
 #' @export
 pySet = function(...) {

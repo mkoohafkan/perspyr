@@ -1,9 +1,9 @@
 .onLoad = function(libname, pkgname){
+  ns = getNamespace("pynterface")
+  assign("pycon", new.env(parent = ns), envir = ns)
 }
 
 .onAttach = function(libname, pkgname){
-  ns = getNamespace("pynterface")
-  assign("pycon", new.env(parent = ns), envir = ns)
   py = pysockr::PythonEnv$new(path = NULL, port = NULL, host = NULL)
   assign("py", py, envir = pycon)
 }

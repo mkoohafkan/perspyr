@@ -3,7 +3,7 @@
 #'
 NULL
 
-#' @describeIn interact Execute a single line of Python code
+#' @describeIn interact Execute a single line of Python code.
 #'
 #' @param code The Python code to execute.
 #'

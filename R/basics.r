@@ -1,34 +1,52 @@
-#' Python help
+#' Python Interface Basics
+#' @name basics
 #'
-pyHelp = function(x) {
+NULL
+
+
+#' @describeIn basics Print Python help documents.
+#'
+#' @param key The Python function or object to get help on.
+#'
+#' @export
+pyHelp = function(key) {
   py()$exec('import pydoc')
-  py()$exec(sprintf("_ = pydoc.render_doc(%s)", x))
+  py()$exec(sprintf("_ = pydoc.render_doc(%s)", key))
   cat(pyGet("_"))
 }
 
-#' Python Version Information
+#' @describeIn basics Print Python version information.
 #'
+#' @export
 pyInfo = function() {
   print(py())
 }
 
-#' Check if Python is connected
+#' @describeIn basics Check if Python is connected.
 #'
+#'@export
 pyIsConnected <- function() {
   py()$running
 }
 
-#' Disconnect from Python
+#' @describeIn basics Disconnect from Python.
 #'
+#'@export
 pyExit = function(){
   py()$stop(TRUE)
   invisible(NULL)
 }
 
 
-#' Connect R to Python
+#' @describeIn basics Connect to Python.
 #'
-pyConnect = function(path, port = 6000, host = 'localhost', timeout = 10000L) {
+#' @param path The path to the Python executable.
+#' @param port A port number to use for communicating with Python.
+#' @param host The hostname to use for communicating with Python.
+#' @param timeout Maximum time to wait for a response from Python.
+#'
+#' @export
+pyConnect = function(path, port = 6000L, host = 'localhost', timeout = 10000L) {
   if(pyIsConnected())
     suppressMessages(pyExit())
   py = pysockr::PythonEnv$new(path = path, port = port, host = host)

@@ -32,7 +32,7 @@ Interact with Python.
 }
 \section{Functions}{
 \itemize{
-\item \code{pyExec}: Execute a single line of Python code
+\item \code{pyExec}: Execute a single line of Python code.
 
 \item \code{pyExecp}: Execute a single line of Python code and
 print the result.

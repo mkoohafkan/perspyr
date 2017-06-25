@@ -16,9 +16,7 @@ pySet(...)
 \arguments{
 \item{objName}{The Python object to print.}
 
-\item{...}{One or more variable names to retrieve from Python.}
-
-\item{...}{One or more named variables to set in Python.}
+\item{...}{Names of one or more Python variables to get/set.}
 }
 \value{
 A character string.
