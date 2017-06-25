@@ -1,6 +1,5 @@
-#' @name attach
-#'
 #' Attach Python objects to R.
+#' @name attach
 #'
 NULL
 
@@ -34,16 +33,18 @@ pyImport = function(name, from = NULL, as = NULL, attach = parent.frame()) {
 #' @describeIn attach import a Python function into R.
 #'
 #' @param key The Python function name.
+#' @param finalizer An additional operation to perform on the
+#'   function output prior to returning to R.
 #'
-pyFunction = function(key) {
+pyFunction = function(key, finalizer = "_") {
   # get Python function specs
-  py$exec(
+  py()$exec(
     "import inspect",
     sprintf("_ = inspect.getargspec(%s)", key)
   )
   # parse arguments and defaults
-  args = py$get("_.args")
-  arg.defaults = lapply(py$get("_.defaults"), deparse)
+  args = py()$get("_.args")
+  arg.defaults = lapply(py()$get("_.defaults"), deparse)
   required.args = head(args, -length(arg.defaults))
   optional.args = tail(args, length(arg.defaults))
   # format arguments
@@ -51,15 +52,17 @@ pyFunction = function(key) {
   fun.args = paste(
     c(required.args, sprintf("%s = %s", optional.args, arg.defaults)),
     collapse = ", ")
-  json.args = sprintf("rjson::toJSON(list(%s))",
+  json.args = sprintf("list(%s)",
     paste(sprintf("%s = %s", args, args), collapse = ", "))
   # format function
   fun.string = paste(
-    sprintf('function(%s) {', fun.args),
-    sprintf('  py()$exec(sprintf("_ = %s(**%s)", %s))', key, "%s", json.args),
-    '  py()$get("_")',
-    '}',
-    sep = '\n')
+    paste0( 'function(', fun.args, ') {' ),
+    paste0( '  py()$exec(sprintf("_ = json.loads(\\\"\\\"\\\"%s\\\"\\\"\\\")", rjson::toJSON(', json.args, ')))'),
+    paste0( '  py()$exec("_ = ', key, '(**_)")'),
+    paste0( '  py()$get("', finalizer, '")'),
+    paste0( '}'),
+    sep = "\n"
+  )
   # return the R function interface
   eval(parse(text = fun.string))
 }

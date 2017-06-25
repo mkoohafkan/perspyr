@@ -1,6 +1,5 @@
-#' @name interact
-#'
 #' Interact with Python.
+#' @name interact
 #'
 NULL
 
@@ -32,7 +31,7 @@ pyExecp = function(code) {
 #' @export
 pyExecg = function(code, returnValues = character()) {
   pyExec(code)
-  do.call(pyGet, returnValues)
+  do.call(pyGet, as.list(returnValues))
 }
 
 #' @describeIn interact Execute Python code contained in a file.

@@ -1,8 +1,8 @@
 #' Python help
 #'
 pyHelp = function(x) {
-  pyImport('pydoc')
-  py()$exec(sprintf("_ = pydoc.renderdoc(%s)", x))
+  py()$exec('import pydoc')
+  py()$exec(sprintf("_ = pydoc.render_doc(%s)", x))
   cat(pyGet("_"))
 }
 
@@ -29,10 +29,12 @@ pyExit = function(){
 #' Connect R to Python
 #'
 pyConnect = function(path, port = 6000, host = 'localhost', timeout = 10000L) {
-  temp = try(pyExit())
-  py = pysockr::PythonEnv$new(path, port, host)
+  if(pyIsConnected())
+    suppressMessages(pyExit())
+  py = pysockr::PythonEnv$new(path = path, port = port, host = host)
   py$timeout = timeout
   assign("py", py, envir = pycon)
-  py()$start
+  py()$start()
+  pyInfo()
   invisible(NULL)
 }

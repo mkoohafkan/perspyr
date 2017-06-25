@@ -1,6 +1,6 @@
+#' Interact with Python variables.
 #' @name variables
 #'
-#' Interact with Python variables.
 NULL
 
 #' @describeIn variables Print a Python object to the R console.
