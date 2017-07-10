@@ -1,9 +1,9 @@
 #' Interact with Python variables.
-#' @name variables
+#' @name py_variables
 #'
 NULL
 
-#' @describeIn variables Print a Python object to the R console.
+#' @describeIn py_variables Print a Python object to the R console.
 #'
 #' @param objName The Python object to print.
 #'
@@ -17,7 +17,7 @@ pyPrint = function(objName) {
   print(py()$exec(sprintf("print(%s)", objName)))
 }
 
-#' @describeIn variables Retrieve variables from Python. Only applicable
+#' @describeIn py_variables Retrieve variables from Python. Only applicable
 #'   to objects that can be serialized to JSON. Otherwise, use `pyPrint`.
 #'
 #' @param ... Names of one or more Python variables to get/set.
@@ -38,7 +38,7 @@ pyGet = function(...) {
 }
 
 
-#' @describeIn variables Set variables in Python. Only applicable to
+#' @describeIn py_variables Set variables in Python. Only applicable to
 #'   objects that can be serialized to JSON. Otherwise, use `pyExec`.
 #'
 #' @export

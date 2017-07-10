@@ -1,36 +1,41 @@
 #' Attach Python objects to R.
-#' @name attach
+#' @name py_attach
 #'
 NULL
 
-#' @describeIn attach Import Python objects into R.
+#' @describeIn py_attach Import Python module into R.
 #'
-#' @param name Names of the Python objects to import.
-#' @param from (Optional) the name of the module.
-#' @param as (Optional) An alias for the module name.
+#' @param name Name of the Python objemodule to import.
 #' @param env (Optional) environment to assign the Python objects to.
 #'
-pyImport = function(name, from = NULL, as = NULL, env = parent.frame()) {
-  if (all(is.null(c(from, as))))
-    py()$exec(sprintf("import %s", name))
-  else if (!any(is.null(c(from, as))))
-    py()$exec(sprintf("from %s import %s as %s", from, name, as))
-  else if(is.null(from))
-    py()$exec(sprintf("import %s as %s", name, as))
-  else if (is.null(as))
-    py()$exec(sprintf("from %s import %s", from))
-  else if (all(is.null(c(name, as))))
-    py()$exec(sprintf("from %s import *", from))
-
+pyImport = function(name, env = parent.frame()) {
+  py()$exec(sprintf("import %s", name))
   if (is.null(env))
     return(invisible(NULL))
 
-  stop("not implemented!")
-  # inspect name
-  # import with pyAttach
+  py()$exec("import inspect")
+  py()$exec(
+    sprintf("_ = [X for (X,Y) in inspect.getmembers(%s, inspect.isfunction)]",
+      name)
+  )
+  funs = pyGet("_")
+  fun.list = vector("list", length(funs))
+  names(fun.list) = funs
+  for (n in funs) {
+    fun.list[[n]] = tryCatch(pyFunction(paste(name, n, sep = ".")),
+      error = function(e) NULL)
+  }
+  err.funs = which(!(funs %in% names(fun.list)))
+  if (length(err.funs) > 0L)
+    warning("The following functions could not be imported: ",
+            paste(funs[err.funs], collapse = ", "))
+  for(n in names(fun.list))
+    assign(n, fun.list[[n]], pos = env)
+  invisible(NULL)
 }
 
-#' @describeIn attach import a Python function into R.
+
+#' @describeIn py_attach import a Python function into R.
 #'
 #' @param key The Python function name.
 #' @param finalizer An additional operation to perform on the
@@ -57,27 +62,8 @@ pyFunction = function(key, finalizer = "_") {
     collapse = ", ")
   json.args = sprintf("list(%s)",
     paste(sprintf("%s = %s", args, args), collapse = ", "))
-  # format function
-  fun.string = paste(
-    paste0( 'function(', fun.args, ') {' ),
-    paste0( '  py()$exec(sprintf("_ = json.loads(\\\"\\\"\\\"%s\\\"\\\"\\\")", rjson::toJSON(', json.args, ')))'),
-    paste0( '  py()$exec("_ = ', key, '(**_)")'),
-    paste0( '  py()$get("', finalizer, '")'),
-    paste0( '}'),
-    sep = "\n"
-  )
+  # build function from template
+  fun.string = fun_template(fun.args, json.args, key, finalizer)
   # return the R function interface
   eval(parse(text = fun.string))
-}
-
-
-#' @describeIn attach
-#'
-#' @param what Vector of names of Python objects to attach to R.
-#'
-pyAttach = function(what, env = parent.frame()){
-  stop("Not implemented!")
-
-  # inspect
-  # attach
 }

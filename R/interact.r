@@ -1,9 +1,9 @@
 #' Interact with Python.
-#' @name interact
+#' @name py_interact
 #'
 NULL
 
-#' @describeIn interact Execute a single line of Python code.
+#' @describeIn py_interact Execute a single line of Python code.
 #'
 #' @param code The Python code to execute.
 #'
@@ -12,7 +12,7 @@ pyExec = function(code) {
   py()$exec(code)
 }
 
-#' @describeIn interact Execute a single line of Python code and
+#' @describeIn py_interact Execute a single line of Python code and
 #'   print the result.
 #'
 #' @export
@@ -21,7 +21,7 @@ pyExecp = function(code) {
   invisible(NULL)
 }
 
-#' @describeIn interact Execute multiple line of Python code and
+#' @describeIn py_interact Execute multiple line of Python code and
 #'   retrieve multiple variables using `pyGet`.
 #'
 #' @param returnValues A vector of variable names to
@@ -34,7 +34,7 @@ pyExecg = function(code, returnValues = character()) {
   do.call(pyGet, as.list(returnValues))
 }
 
-#' @describeIn interact Execute Python code contained in a file.
+#' @describeIn py_interact Execute Python code contained in a file.
 #'
 #' @param filename The file containing Python code to execute.
 #'

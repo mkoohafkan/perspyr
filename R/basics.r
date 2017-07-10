@@ -3,7 +3,6 @@
 #'
 NULL
 
-
 #' @describeIn basics Print Python help documents.
 #'
 #' @param key The Python function or object to get help on.
