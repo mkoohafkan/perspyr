@@ -13,9 +13,9 @@ pyImport = function(name, env = parent.frame()) {
   if (is.null(env))
     return(invisible(NULL))
 
-  py()$exec("import inspect")
+  py()$exec("import inspect as INSPECT")
   py()$exec(
-    sprintf("_ = [X for (X,Y) in inspect.getmembers(%s, inspect.isfunction)]",
+    sprintf("_ = [X for (X,Y) in INSPECT.getmembers(%s, INSPECT.isfunction)]",
       name)
   )
   funs = pyGet("_")
@@ -47,8 +47,8 @@ pyImport = function(name, env = parent.frame()) {
 pyFunction = function(key, finalizer = "_") {
   # get Python function specs
   py()$exec(
-    "import inspect",
-    sprintf("_ = inspect.getargspec(%s)", key)
+    "import inspect as INSPECT",
+    sprintf("_ = INSPECT.getargspec(%s)", key)
   )
   # parse arguments and defaults
   args = py()$get("_.args")

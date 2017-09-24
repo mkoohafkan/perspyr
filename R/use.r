@@ -3,14 +3,14 @@
 #' Define methods for retrieving non-primitive Python objects.
 #'
 #' @name py_use
-#' @seealso pysockr::use_class
+#' @seealso transpyr::use_class
 NULL
 
 #' @describeIn py_use Use numpy classes.
 #'
 #' @export
 useNumpy = function() {
-  pysockr::use_numpy(py())
+  transpyr::use_numpy(py())
   invisible(NULL)
 }
 
@@ -18,7 +18,7 @@ useNumpy = function() {
 #'
 #' @export
 usePandas = function(){
-  pysockr::use_pandas(py())
+  transpyr::use_pandas(py())
   invisible(NULL)
 }
 
@@ -29,6 +29,6 @@ usePandas = function(){
 #'
 #' @export
 useClass = function(method) {
-  pysockr::use_class(py(), method)
+  transpyr::use_class(py(), method)
   invisible(NULL)
 }

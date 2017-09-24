@@ -10,7 +10,7 @@ NULL
 #' @export
 pyHelp = function(key) {
   py()$exec('import pydoc')
-  py()$exec(sprintf("_ = pydoc.render_doc(%s)", key))
+  py()$exec(sprintf("_ = pydoc.render_doc(%s)", shQuote(key)))
   cat(pyGet("_"))
 }
 

@@ -1,14 +1,16 @@
-Package: pynterface
+Package: perspyr
 Type: Package
-Title: An interface to Python
+Title: Persistent Python Process in R
 Version: 0.1.0
 Authors@R: c(
     person("Michael", "Koohafkan", , "michael.koohafkan@gmail.com", role = c("aut", "cre"))
     )
-Description: An R interface to Python. 
+Description: A simplified interface for Python.
 License: GPL (>= 3)
 Depends: R (>= 3.3.0)
-Imports: pysockr
+Imports: 
+    expyr,
+    transpyr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

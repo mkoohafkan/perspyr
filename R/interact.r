@@ -21,8 +21,8 @@ pyExecp = function(code) {
   invisible(NULL)
 }
 
-#' @describeIn py_interact Execute multiple line of Python code and
-#'   retrieve multiple variables using `pyGet`.
+#' @describeIn py_interact Execute multiple lines of Python code 
+#'   and retrieve variables using `pyGet`.
 #'
 #' @param returnValues A vector of variable names to
 #'   retrieve from Python.
@@ -30,7 +30,7 @@ pyExecp = function(code) {
 #'
 #' @export
 pyExecg = function(code, returnValues = character()) {
-  pyExec(code)
+  pyExec(paste(code, collapse = "\n"))
   do.call(pyGet, as.list(returnValues))
 }
 

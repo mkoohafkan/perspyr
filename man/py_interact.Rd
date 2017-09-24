@@ -37,8 +37,8 @@ Interact with Python.
 \item \code{pyExecp}: Execute a single line of Python code and
 print the result.
 
-\item \code{pyExecg}: Execute multiple line of Python code and
-retrieve multiple variables using \code{pyGet}.
+\item \code{pyExecg}: Execute multiple lines of Python code
+and retrieve variables using \code{pyGet}.
 
 \item \code{pyExecfile}: Execute Python code contained in a file.
 }}

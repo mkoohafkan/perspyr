@@ -30,5 +30,5 @@ Define methods for retrieving non-primitive Python objects.
 }}
 
 \seealso{
-pysockr::use_class
+transpyr::use_class
 }

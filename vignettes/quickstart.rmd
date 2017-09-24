@@ -1,0 +1,161 @@
+---
+title: "Quickstart"
+output: html_document
+---
+
+```{r}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
+
+# Introduction
+
+**pynterface** is an R interface to Python that provides a persistent
+Python environment. It provides a number of convenience
+functions to simplify communicating with the Python environment, including
+initializing and exiting the Python environment; getting and setting variables; 
+accessing documentation; importing modules; and generating R interfaces to 
+Python functions. **pynterface** also provides helper interfaces for 
+**pandas** and **numpy**, and a generic interface for extending the R interface
+to custom Python classes.
+
+
+# Starting the Python environment
+
+Start a Python environment with `pyConnect`. Because **pynterface** uses the
+**pysockr** as a backend, `pyConnect` needs to know what port to use and the 
+hostname as well as the path to the Python executable. If you're running 
+**pysockr** on a standard client (i.e. not a server or on separate clusters)
+the defaults should work just fine. **pynterface** is designed to work with
+Python version 2.7 (or higher) or Python version 3.6 (or higher). Use 
+`pyInfo` to get information on the connected Python environment and `pyExit`
+to shut down the Python environment.
+
+```{r}
+# assuming Python is installed in C:/Python27
+pyConnect("C:/Python27/python.exe")
+# get information on the Python environment
+pyInfo()
+# shut down the Python environment
+pyExit()
+```
+
+
+# Accessing help
+
+You can easily access Python help documents from R using `pyHelp`.
+
+```{r}
+pyHelp("str")     # get help on the Python "str" function
+pyHelp("pydoc")   # get hep on the pydoc module
+```
+
+
+# Executing Python code
+
+**pynterface** provides a number of functions for executing Python
+code from R:
+
+1. `pyexec`: execute Python code without a return value. Useful for
+   e.g. import statements.
+2. `pyexecp`: execute Python code and print the result.
+3. `pyexecg`: execute multiple lines of Python code and retrieve 
+   variables.
+4. pyExecfile: Compile and execute Python code in a file.
+
+```{r}
+pyExec("import os")
+pyExecp("os.getcwd()")
+pyExecg(c("a = 5", "b = 2", "c = 3"), returnValues = c("a", "c"))
+
+f = tempfile(fileext = ".py")
+cat("d = a + b + c", sep = "\n", file = f)
+pyExecfile(f)
+pyExecp("d")
+```
+
+
+# Getting and Setting Variables
+
+You can also get, set and print variables using the helper functions 
+`pyGet`, `pySet` and `pyPrint`:
+
+```{r}
+pySet(a = 5)
+pyGet('a')
+pyPrint('a')
+```
+
+`pyGet` and `pySet` use JSON to serialize and parse Python objects via
+the **rjson** package on the R side and the **json** module on the 
+Python side. This makes it easy to send complex objects back and forth 
+between R and Python:
+
+```{r}
+pySet(aa = 1:10)
+pyGet('aa')
+pyPrint('aa')
+
+pySet(dd = data.frame(a = 5, b = "FOO"))
+
+pyExecp("type(dd)")
+pyPrint('dd')
+
+pyGet('dd')
+```
+
+Objects get converted based on the defaults available to **rjson** 
+package and **json** module. Not every Python object can be 
+automatically serialized to JSON. Some objects have a method that 
+can be called to convert to JSON. For example, **numpy** vectors
+can't be automatically converted to JSON strings, but they can be
+converted to lists which can then be converted to JSON strings.
+**pandas** data frames have a `to_JSON` method for converting to
+JSON strings. **pynterface** can use the extensions provided by
+**pysockr** for converting **numpy** and **pandas** objects to JSON 
+strings for easy reading into R. These extensions can be loaded with 
+`useNumpy` and `usePandas`:
+
+```{r}
+pyExec("import numpy")
+useNumpy()    # add the numpy extension for JSON serializing
+usePandas()   # add the pandas extension for JSON serializing
+pySet(a = sample(1:10, 5))
+pyExec("b = numpy.sort(a)")
+pyGet("b")
+```
+
+Definitions for custom classes can be loaded with `useClass`.
+Defining extensions for custom classes is straightforward; see the 
+**pysockr** documentation for more info.
+
+
+# Generating Interfaces to Python Functions
+
+**pynterface** can automatically generate interfaces to Python 
+functions with `pyFunction`:
+
+```{r}
+npsort = pyFunction("numpy.sort")
+npsort(sample(1:10, 5))
+```
+
+Python function interfaces use the undescore character `_` as a
+placeholder for the output variable. The `finalizer` argument can
+be used to do some final processing of the Python output prior to
+JSON serialization and transfer to R.
+
+The `pyImport` function loads a module and attempts to generate an
+interface for every function in the module into an R environment:
+
+```{r}
+e = new.env()
+pyImport("numpy", env = e)
+ls(e)
+```
+
+# Need more control?
+
+Check out **pysockr** for a low-level, extensible R6 class
+interface to Python.
