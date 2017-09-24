@@ -48,7 +48,7 @@ pyExit = function(){
 pyConnect = function(path, port = 6000L, host = 'localhost', timeout = 10000L) {
   if(pyIsConnected())
     suppressMessages(pyExit())
-  py = pysockr::PythonEnv$new(path = path, port = port, host = host)
+  py = expyr::PythonEnv$new(path = path, port = port, host = host)
   py$timeout = timeout
   assign("py", py, envir = pycon)
   py()$start()

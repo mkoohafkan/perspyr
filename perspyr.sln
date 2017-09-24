@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{DA7A21FA-8162-4350-AD77-A8D1B671F3ED}") = "perspyr", "perspyr.rxproj", "{08F5704A-AEF9-4D11-BD56-47BAB8DFFF32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08F5704A-AEF9-4D11-BD56-47BAB8DFFF32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08F5704A-AEF9-4D11-BD56-47BAB8DFFF32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08F5704A-AEF9-4D11-BD56-47BAB8DFFF32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08F5704A-AEF9-4D11-BD56-47BAB8DFFF32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67EC9679-E4D9-4138-BAE9-D62A1E752C8A}
+	EndGlobalSection
+EndGlobal
