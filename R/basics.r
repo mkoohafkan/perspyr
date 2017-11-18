@@ -17,8 +17,8 @@ pyHelp = function(key) {
 #' @describeIn basics Print Python version information.
 #'
 #' @export
-pyInfo = function() {
-  print(py())
+pyVersion = function() {
+  paste(py()$get("SYS.version_info[0:3]"), collapse = ".")
 }
 
 #' @describeIn basics Check if Python is connected.
@@ -52,6 +52,6 @@ pyConnect = function(path, port = 6000L, host = 'localhost', timeout = 10000L) {
   py$timeout = timeout
   assign("py", py, envir = pycon)
   py()$start()
-  pyInfo()
+  print(py())
   invisible(NULL)
 }

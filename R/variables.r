@@ -45,3 +45,8 @@ pyGet = function(...) {
 pySet = function(...) {
   py()$set(...)
 }
+
+pyType = function(objName) {
+  py()$exec(sprintf('_ = type(%s)', objName))
+  py()$get(objName)
+}

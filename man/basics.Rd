@@ -3,7 +3,7 @@
 \name{basics}
 \alias{basics}
 \alias{pyHelp}
-\alias{pyInfo}
+\alias{pyVersion}
 \alias{pyIsConnected}
 \alias{pyExit}
 \alias{pyConnect}
@@ -11,7 +11,7 @@
 \usage{
 pyHelp(key)
 
-pyInfo()
+pyVersion()
 
 pyIsConnected()
 
@@ -37,7 +37,7 @@ Python Interface Basics
 \itemize{
 \item \code{pyHelp}: Print Python help documents.
 
-\item \code{pyInfo}: Print Python version information.
+\item \code{pyVersion}: Print Python version information.
 
 \item \code{pyIsConnected}: Check if Python is connected.
 
